@@ -54,7 +54,7 @@ Function Get-FileName($initialDirectory)
     
     $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
     $OpenFileDialog.initialDirectory = $initialDirectory
-    $OpenFileDialog.filter = "CSV (*.csv)| *.csv| *.txt"
+    $OpenFileDialog.filter = "CSV (*.csv)|*.csv|IOS (*.ios)|*.ios"
     $OpenFileDialog.ShowDialog() | Out-Null
     $OpenFileDialog.filename
 }
@@ -67,7 +67,7 @@ $filedevices = Get-FileName ".\"
 $devices = Import-Csv -path $filedevices -header 'ip','hostname' -delimiter ';'
 
 ### file with commands for Cisco IOS
-Write-Host "Enter the path of the file *.txt with commands Cisco IOS"
+Write-Host "Enter the path of the file *.ios with commands Cisco IOS"
 $fileCommands = Get-FileName ".\"
 $commands = Get-Content $fileCommands
 
