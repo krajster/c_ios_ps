@@ -69,6 +69,7 @@ Write-Host "Enter the path of the file with Cisco devices"
 $filedevices = Get-FileName ".\" 1 "Cisco Devices"
 $devices = Import-Csv -path $filedevices -header 'ip','hostname' -delimiter ';'
 
+
 ### file with commands for Cisco IOS
 Write-Host "Enter the path of the file *.ios with commands Cisco IOS"
 $fileCommands = Get-FileName ".\" 2 "Cisco Config"
@@ -76,13 +77,19 @@ $commands = Get-Content $fileCommands
 
 ### Ask Cisco username password
 $c=get-credential 
-$p=$c.getnetworkcredential().password
-$u=$c.Username
-$user=$u
-$password=$p
+$user=$c.Username
+$password=$c.getnetworkcredential().password
+
+if ($devices.count -le 0){
+    $devicescount = 0
+}
+else {
+    $devicescount = $devices.count
+}
+Write-Host $devicescount
 
 $port = 22
-for ($i=0; $i -le $devices.Count; $i++){
+for ($i=0; $i -le $devicescount; $i++){
     $ssh = new-object Renci.SshNet.SshClient($devices[$i].ip, $port, $user, $password)
     Try{
         $ssh.Connect()
