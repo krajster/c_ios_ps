@@ -48,27 +48,30 @@ Function set-SSH($devices, $ssh){
 }
 
 ### Function OpenFile
-Function Get-FileName($initialDirectory)
+Function Get-FileName($initialDirectory, $FilterIndex, $Title)
 {
     [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
     
     $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
-    $OpenFileDialog.initialDirectory = $initialDirectory
-    $OpenFileDialog.filter = "CSV (*.csv)|*.csv|IOS (*.ios)|*.ios"
+    $OpenFileDialog.FilterIndex = $FilterIndex
+    $OpenFileDialog.InitialDirectory = $initialDirectory
+    $OpenFileDialog.Filter = "CSV (*.csv)|*.csv|IOS (*.ios)|*.ios"
+    $OpenFileDialog.FilterIndex = $FilterIndex
+    $OpenFileDialog.Title = $Title
     $OpenFileDialog.ShowDialog() | Out-Null
-    $OpenFileDialog.filename
+    $OpenFileDialog.Filename
 }
 
 ### MAIN
 
 ### file with Cisco IOS devices
 Write-Host "Enter the path of the file with Cisco devices"
-$filedevices = Get-FileName ".\"
+$filedevices = Get-FileName ".\" 1 "Cisco Devices"
 $devices = Import-Csv -path $filedevices -header 'ip','hostname' -delimiter ';'
 
 ### file with commands for Cisco IOS
 Write-Host "Enter the path of the file *.ios with commands Cisco IOS"
-$fileCommands = Get-FileName ".\"
+$fileCommands = Get-FileName ".\" 2 "Cisco Config"
 $commands = Get-Content $fileCommands
 
 ### Ask Cisco username password
