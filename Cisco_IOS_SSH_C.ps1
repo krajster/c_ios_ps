@@ -80,13 +80,12 @@ $c=get-credential
 $user=$c.Username
 $password=$c.getnetworkcredential().password
 
-if ($devices.count -le 0){
+if ($devices.count -le 0) {
     $devicescount = 0
 }
 else {
     $devicescount = $devices.count
 }
-Write-Host $devicescount
 
 $port = 22
 for ($i=0; $i -le $devicescount; $i++){
