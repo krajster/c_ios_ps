@@ -99,5 +99,4 @@ for ($i=0; $i -le $devicescount; $i++){
         Write-Host ("SSH fail $devices " + $_)
         Continue
     }
-        
 }
