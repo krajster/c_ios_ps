@@ -41,9 +41,9 @@ Function set-SSH($devices, $ssh){
                 start-sleep -milliseconds 500
             }
 
-            $stream.Dispose()
-            $ssh.Disconnect()
-            $ssh.Dispose()
+            $stream.Dispose() | Out-Null
+            $ssh.Disconnect() | Out-Null
+            $ssh.Dispose()    | Out-Null
 
 }
 
@@ -76,11 +76,11 @@ $fileCommands = Get-FileName ".\" 2 "Cisco Config"
 $commands = Get-Content $fileCommands
 
 ### Ask Cisco username password
-$c=get-credential 
+$c=get-credential
 $user=$c.Username
 $password=$c.getnetworkcredential().password
 
-if ($devices.count -le 0) {
+if ($devices.count -le 0){
     $devicescount = 0
 }
 else {
@@ -94,7 +94,10 @@ for ($i=0; $i -le $devicescount; $i++){
         $ssh.Connect()
         Start-Sleep -s 1
         set-SSH $commands $ssh
-       }
-       catch{
-            }
+    }
+    catch{
+        Write-Host ("SSH fail $devices " + $_)
+        Continue
+    }
+        
 }
