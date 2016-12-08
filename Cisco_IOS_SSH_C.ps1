@@ -1,7 +1,7 @@
 Import-Module SSH-Sessions
 
 ### Send commands Cisco IOS
-Function set-SSH($devices, $ssh){
+Function Set-Ssh($devices, $ssh){
     function ReadStream($reader)
     {
         $line = $reader.ReadLine();
@@ -93,7 +93,7 @@ for ($i=0; $i -le $devicescount; $i++){
     Try{
         $ssh.Connect()
         Start-Sleep -s 1
-        set-SSH $commands $ssh
+        Set-Ssh $commands $ssh
     }
     catch{
         Write-Host ("SSH fail $devices " + $_)
